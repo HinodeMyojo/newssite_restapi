@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.SyndicationFeed;
 using NewsAggregator.Models;
+using NewsAggregator.RssReader;
 
 namespace NewsAggregator.Controllers
 {
@@ -14,10 +9,12 @@ namespace NewsAggregator.Controllers
     [ApiController]
     public class NewsEntitiesController : ControllerBase
     {
+        private readonly NewsRssFeed _newsRssFeed;
         private readonly NewsDbContext _context;
 
         public NewsEntitiesController(NewsDbContext context)
         {
+            _newsRssFeed = new NewsRssFeed();
             _context = context;
         }
 
@@ -41,27 +38,34 @@ namespace NewsAggregator.Controllers
 
             return newsEntity;
         }
-
-        // POST: api/NewsEntities
-        [HttpPost("FetchNewsFromUrlOrRss")]
-        public async Task<IActionResult> FetchNewsFromUrl([FromBody] string newsUrl)
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] string rssUrl)
         {
+            if (string.IsNullOrEmpty(rssUrl))
+            {
+                return BadRequest("Rss Обязателен!");
+            }
+
             try
             {
-                var newsItems = await RssReader.RssReadFeed.CreateRssFeedReader(newsUrl);
-
-                // После получения новостей, они сохраняются в базу данных
-                foreach (var newsItem in newsItems)
+                var rssItems = await _newsRssFeed.ReadRssFeedAsync(rssUrl);
+                var entities = rssItems.Select(item => new NewsEntity
                 {
-                    _context.News.Add(newsItem);
-                }
+                    Title = item.Title,
+                    Description = item.Description,
+                    SourceUrl = rssUrl,
+                }).ToList();
+
+                await _context.News.AddRangeAsync(entities);
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "News fetched and saved successfully." });
+
+                return Ok(entities);
             }
-            catch (Exception e)
+            catch (System.Exception ex)
             {
-                return BadRequest(new { error = e.Message });
+                return StatusCode(500, "An error occurred while saving the RSS feed to the database.");
             }
         }
+
     }
 }
