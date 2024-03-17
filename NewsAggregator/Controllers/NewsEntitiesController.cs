@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SyndicationFeed;
 using NewsAggregator.Models;
 
 namespace NewsAggregator.Controllers
@@ -42,19 +43,25 @@ namespace NewsAggregator.Controllers
         }
 
         // POST: api/NewsEntities
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<NewsEntity>> PostNewsEntity(NewsEntity newsEntity)
+        [HttpPost("FetchNewsFromUrlOrRss")]
+        public async Task<IActionResult> FetchNewsFromUrl([FromBody] string newsUrl)
         {
-            _context.News.Add(newsEntity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var newsItems = await RssReader.RssReadFeed.CreateRssFeedReader(newsUrl);
 
-            return CreatedAtAction("GetNewsEntity", new { id = newsEntity.Id }, newsEntity);
-        }
-
-        private bool NewsEntityExists(int id)
-        {
-            return _context.News.Any(e => e.Id == id);
+                // После получения новостей, они сохраняются в базу данных
+                foreach (var newsItem in newsItems)
+                {
+                    _context.News.Add(newsItem);
+                }
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "News fetched and saved successfully." });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { error = e.Message });
+            }
         }
     }
 }

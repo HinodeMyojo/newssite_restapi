@@ -21,32 +21,6 @@
   },
   {
     "ContainingType": "NewsAggregator.Controllers.NewsEntitiesController",
-    "Method": "PostNewsEntity",
-    "RelativePath": "api/NewsEntities",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "newsEntity",
-        "Type": "NewsAggregator.Models.NewsEntity",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "NewsAggregator.Models.NewsEntity",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "NewsAggregator.Controllers.NewsEntitiesController",
     "Method": "GetNewsEntity",
     "RelativePath": "api/NewsEntities/{id}",
     "HttpMethod": "GET",
@@ -70,5 +44,21 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "NewsAggregator.Controllers.NewsEntitiesController",
+    "Method": "FetchNewsFromUrl",
+    "RelativePath": "api/NewsEntities/FetchNewsFromUrlOrRss",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newsUrl",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
