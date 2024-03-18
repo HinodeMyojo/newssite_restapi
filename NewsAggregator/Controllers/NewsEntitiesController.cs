@@ -20,13 +20,6 @@ namespace NewsAggregator.Controllers
 
         // GET: api/NewsEntities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NewsEntity>>> GetNews()
-        {
-            return await _context.News.ToListAsync();
-        }
-
-        // GET: api/title
-        [HttpGet("{title}")]
         public async Task<ActionResult<IEnumerable<NewsEntity>>> GetFilterNews(string? title, string? body)
         {
             var query = _context.News.AsQueryable();
