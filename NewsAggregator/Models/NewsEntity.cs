@@ -2,9 +2,11 @@
 {
     public class NewsEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
+        public string Link { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public required string SourceUrl { get; set; }
+        public DateTimeOffset PubDate { get; set; }
+        public string SourceUrl { get; set; } = string.Empty;
     }
 }
