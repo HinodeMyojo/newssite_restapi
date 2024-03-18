@@ -13,7 +13,7 @@ using System.Reflection;
 
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("bcbb8f2c-cfa4-4a30-96af-35a752995af9")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("NewsAggregator")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+092e29570f265ee833254a13b29b355140aaf944")]
 [assembly: System.Reflection.AssemblyProductAttribute("NewsAggregator")]
