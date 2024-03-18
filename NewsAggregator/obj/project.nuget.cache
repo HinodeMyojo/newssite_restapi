@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "o/4/425OX9rJoQXBYLTe4u+t05drEn39rcbbJ0g+GrLaAnIWcWVxXOqfkJY3AbaZCy9w6bfcf5zwk2lDHdrmCg==",
+  "dgSpecHash": "yoP53MB/YSMZ+UkJvo+p5xfWnmVh4qeggynRK4u24VoFVz7w9DtL7OHTfrT5cK2Ep8dJ5TFRHAL+5TNlNhwqxA==",
   "success": true,
   "projectFilePath": "C:\\Dev\\newssite_restapi\\NewsAggregator\\NewsAggregator.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\htmlagilitypack\\1.11.59\\htmlagilitypack.1.11.59.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",

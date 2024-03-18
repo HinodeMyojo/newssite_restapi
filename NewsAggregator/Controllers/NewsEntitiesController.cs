@@ -10,11 +10,13 @@ namespace NewsAggregator.Controllers
     public class NewsEntitiesController : ControllerBase
     {
         private readonly NewsRssFeed _newsRssFeed;
+        private readonly NewsRssFeedN _newsRssFeedN;
         private readonly NewsDbContext _context;
 
         public NewsEntitiesController(NewsDbContext context)
         {
             _newsRssFeed = new NewsRssFeed();
+            _newsRssFeedN = new NewsRssFeedN();
             _context = context;
         }
 
@@ -48,12 +50,14 @@ namespace NewsAggregator.Controllers
 
             try
             {
-                var rssItems = await _newsRssFeed.ReadRssFeedAsync(rssUrl);
+                var rssItems = await _newsRssFeedN.ReadRssFeedAsyncN(rssUrl);
                 var entities = rssItems.Select(item => new NewsEntity
                 {
                     Title = item.Title,
+                    Link = item.Link,
                     Description = item.Description,
                     SourceUrl = rssUrl,
+                    PubDate = item.PubDate.ToUniversalTime(),
                 }).ToList();
 
                 await _context.News.AddRangeAsync(entities);
@@ -63,6 +67,7 @@ namespace NewsAggregator.Controllers
             }
             catch (System.Exception ex)
             {
+                //добавить в будущем работу с ошибками
                 return StatusCode(500, "An error occurred while saving the RSS feed to the database.");
             }
         }
