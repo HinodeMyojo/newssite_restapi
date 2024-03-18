@@ -28,7 +28,7 @@ REST API агрегатор новостей - это сервис, которы
 git clone https://github.com/HinodeMyojo/newssite_restapi.git
 ```
 
-### Шаг 2. Запуск с помощью Docker Compose
+### Шаг 2. Запуск Docker Compose
 
 Используйте Docker Compose для сборки и запуска приложения вместе с базой данных:
 
