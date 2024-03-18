@@ -7,6 +7,7 @@ namespace NewsAggregator.Models
         public NewsDbContext(DbContextOptions<NewsDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();  
         }
 
         public DbSet<NewsEntity> News { get; set;}
