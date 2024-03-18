@@ -25,7 +25,6 @@ REST API агрегатор новостей - это сервис, которы
 Клонируйте репозиторий в желаемую директорию:
 
 git clone https://github.com/your-username/news-aggregator.git
-cd news-aggregator
 
 
 ### Шаг 2. Запуск с помощью Docker Compose
