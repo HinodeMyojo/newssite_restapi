@@ -1,15 +1,17 @@
 ﻿using Microsoft.SyndicationFeed;
 using Microsoft.SyndicationFeed.Rss;
 using NewsAggregator.Models;
+using System.Security.Policy;
 using System.Xml;
 
 namespace NewsAggregator.RssReader
 {
     public class NewsRssFeed
     {
-        public async Task<IEnumerable<RssItem>> ReadRssFeedAsync(string url)
+        public async Task<IEnumerable<NewsEntity>> ReadRssFeedAsync(string originurl)
         {
-            var rssItems = new List<RssItem>();
+            var rssItems = new List<NewsEntity>();
+            var url = FindRss.CheckUrl(originurl);
 
             using (var xmlReader = XmlReader.Create(url, new XmlReaderSettings { Async = true }))
             {
@@ -21,12 +23,13 @@ namespace NewsAggregator.RssReader
                     {
                         ISyndicationItem item = await feedReader.ReadItem();
                         var firstLink = item.Links.FirstOrDefault();
-                        rssItems.Add(new RssItem
+                        rssItems.Add(new NewsEntity
                         {
                             Title = item.Title,
                             Link = firstLink?.Uri.ToString(),
                             Description = item.Description,
-                            PublishDate = item.Published.UtcDateTime
+                            PubDate = item.Published
+                            
                         });
                     }
                 }

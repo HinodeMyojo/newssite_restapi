@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NewsAggregator.Migrations
 {
     [DbContext(typeof(NewsDbContext))]
-    [Migration("20240317210932_Initial")]
+    [Migration("20240318005516_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace NewsAggregator.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("PubDate")
+                    b.Property<DateTimeOffset>("PubDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SourceUrl")

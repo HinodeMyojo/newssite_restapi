@@ -10,13 +10,11 @@ namespace NewsAggregator.Controllers
     public class NewsEntitiesController : ControllerBase
     {
         private readonly NewsRssFeed _newsRssFeed;
-        private readonly NewsRssFeedN _newsRssFeedN;
         private readonly NewsDbContext _context;
 
         public NewsEntitiesController(NewsDbContext context)
         {
             _newsRssFeed = new NewsRssFeed();
-            _newsRssFeedN = new NewsRssFeedN();
             _context = context;
         }
 
@@ -27,19 +25,28 @@ namespace NewsAggregator.Controllers
             return await _context.News.ToListAsync();
         }
 
-        // GET: api/NewsEntities/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<NewsEntity>> GetNewsEntity(int id)
+        // GET: api/title
+        [HttpGet("{title}")]
+        public async Task<ActionResult<IEnumerable<NewsEntity>>> GetFilterNews(string? title, string? body)
         {
-            var newsEntity = await _context.News.FindAsync(id);
+            var query = _context.News.AsQueryable();
 
-            if (newsEntity == null)
+            if (!string.IsNullOrEmpty(title))
             {
-                return NotFound();
+                query = query.Where(n => n.Title.Contains(title));
             }
 
-            return newsEntity;
+            if (!string.IsNullOrEmpty(body))
+            {
+                query = query.Where(n => n.Description.Contains(body));
+            }
+
+            var filteredNews = await query.ToListAsync();
+
+            return Ok(filteredNews);
         }
+
+        // POST: api/NewsEntities
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] string rssUrl)
         {
@@ -50,7 +57,7 @@ namespace NewsAggregator.Controllers
 
             try
             {
-                var rssItems = await _newsRssFeedN.ReadRssFeedAsyncN(rssUrl);
+                var rssItems = await _newsRssFeed.ReadRssFeedAsync(rssUrl);
                 var entities = rssItems.Select(item => new NewsEntity
                 {
                     Title = item.Title,
@@ -68,7 +75,7 @@ namespace NewsAggregator.Controllers
             catch (System.Exception ex)
             {
                 //добавить в будущем работу с ошибками
-                return StatusCode(500, "An error occurred while saving the RSS feed to the database.");
+                return StatusCode(500, "Произошла ошибки при сохрании RSS в базу данных.");
             }
         }
 

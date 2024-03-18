@@ -21,7 +21,7 @@ namespace NewsAggregator.RssReader
         public static string CheckUrl(string url)
         {
             var contenttype = CheckContentType(url);
-            if (contenttype.Contains("application/rss+xml"))
+            if (contenttype.Contains("application/rss+xml") || contenttype.Contains("text/xml"))
             {
                 return url;
             }
