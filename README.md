@@ -24,21 +24,25 @@ REST API агрегатор новостей - это сервис, которы
 
 Клонируйте репозиторий в желаемую директорию:
 
+```
 git clone https://github.com/your-username/news-aggregator.git
-
+```
 
 ### Шаг 2. Запуск с помощью Docker Compose
 
 Используйте Docker Compose для сборки и запуска приложения вместе с базой данных:
 
+```
 docker-compose up --build
+```
 
 ### Шаг 3. Накатить миграции
 
 После запуска контейнеров необходимо провести миграции базы данных для создания необходимых таблиц:
 
-//Добавить
-
+```
+dotnet ef database update
+```
 
 ### Тестирование
 
@@ -46,11 +50,14 @@ docker-compose up --build
 
 - https://lenta.ru/
 - https://news.mail.ru/
+- https://www.nytimes.com/section/business
+  
 - https://news.un.org/feed/subscribe/ru/news/all/rss.xml
 - https://rss.nytimes.com/services/xml/rss/nyt/World.xml
+- https://www.edu.ru/news/export/
 
 ### Документация API
 
-После запуска агрегатор новостей будет доступен по адресу http://localhost:8000. Полная документация по использованию API будет доступна по адресу http://localhost:8000/swagger.
+После запуска агрегатор новостей будет доступен по адресу http://localhost:5044. Полная документация по использованию API будет доступна по адресу http://localhost:5044/swagger.
 
 ---
